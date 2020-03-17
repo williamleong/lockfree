@@ -1,14 +1,14 @@
-# lockfree::AtomicWrapper<T>
+# lockfree::AtomicWrapper&lt;T&gt;
 C++11 lock-free wrapper for multi byte data structures
 
 ## Introduction
 - Thread-safe, templated, lock-free wrapper for the data structures you want to access from multiple threads concurrently
-- Like std::atomic<T> but not limited to primitive data types
+- Like std::atomic&lt;T&gt; but not limited to primitive data types
 
 ## Features
 - Turn any struct into a lock-free struct
 - Elegant single header implementation (&lt; 200 lines of code)
-- Portable C++11 code (tested on x64, ARM, GCC 5.5, Clang 6.0, MSVC 2015, Windows, Linux)
+- Portable C++11 code (tested on x64, ARM, Windows, Linux)
 - Easy to use
 
 ## Requirements
