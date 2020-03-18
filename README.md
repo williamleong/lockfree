@@ -1,5 +1,5 @@
 # lockfree::AtomicWrapper&lt;T&gt;
-C++11 lock-free wrapper for multi byte data structures
+C++11 lock-free atomic wrapper
 
 ## Introduction
 - Thread-safe, templated, lock-free wrapper for the data structures you want to access from multiple threads concurrently
@@ -113,20 +113,14 @@ I used mutexes, but then reached a point where std::mutex was bottlenecking the 
 
 There was no simple, complete, and open source implementation that suited my needs, so I set out to create a cross platform templated wrapper for *any* struct.
 
-I'd already exploited lock-free programming to implement my message bus, so I figured that if my data structures were lock-free, I could do away with mutexes
-completely. If you try to Google [lock-free programming](https://www.google.com/search?q=+lock+free+programming), you will realize the general
-consensus is [not to](https://www.modernescpp.com/index.php/c-core-guidelines-concurrency-and-lock-free-programming#h1-lock-free-programming)
-[do it](https://medium.com/@tylerneely/fear-and-loathing-in-lock-free-programming-7158b1cdd50c).
+I'd already exploited lock-free programming to implement my message bus, so I figured that if my data structures were lock-free, I could do away with mutexes completely. If you try to Google [lock-free programming](https://www.google.com/search?q=+lock+free+programming), you will realize the general consensus is [not to](https://www.modernescpp.com/index.php/c-core-guidelines-concurrency-and-lock-free-programming#h1-lock-free-programming) [do it](https://medium.com/@tylerneely/fear-and-loathing-in-lock-free-programming-7158b1cdd50c).
 
-That said, lockfree::AtomicWrapper is not a silver bullet for all your concurrent data access problems. When in doubt, benchmark to determine the
-bottleneck before applying this as a solution. This is because lock-free programming can result in bugs that are incredibly difficult to resolve as
-at any *single* point in time, different threads can see the object in *different* states. Hence, this solution is best for data that is read and updated
-by multiple threads regularly, so if a thread sees an outdated copy of the data, it would not cause the end of the universe. You should also consider if a
+That said, lockfree::AtomicWrapper is not a silver bullet for all your concurrent data access problems. When in doubt, benchmark to determine the bottleneck before applying this as a solution. This is because lock-free programming can result in bugs that are incredibly difficult to resolve as at any *single* point in time, different threads can see the object in *different* states. Hence, this solution is best for data that is read and updated by multiple threads regularly, so if a thread sees an outdated copy of the data, it would not cause the end of the universe. You should also consider if a
 [lock-free queue](https://github.com/cameron314/concurrentqueue) would suit your needs better.
 
 I did say that it is *easy to use*, but it is difficult to use *correctly*.
 
-## Credits
+## References
 - [moodycamel::ConcurrentQueue](https://github.com/cameron314/concurrentqueue) - Cameron Desrochers' most excellent concurrentqueue, an inspiration indeed
 - [atomic_data](http://alexpolt.github.io/atomic-data.html) - Alexandr Poltavsky's atomic_data lock-free wrapper is similar. It uses a "backing multi-producer/multi-consumer queue" to solve the ABA problem (I use smart pointers) and guarantee wait-free reads (I don't have this). It *should* be faster, but the implementation is more complex. I shamelessly stole some of his API.
 - [An Introduction to Lock-Free Programming](https://preshing.com/20120612/an-introduction-to-lock-free-programming) - Jeff Preshing's Preshing on Programming
